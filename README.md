@@ -23,7 +23,7 @@ https://kafka.apache.org/quickstart
     > bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic topic1 
     > bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic topic2 
 
- [2] Run the Producer Web API
+ [2] Run the Producer http server 
 
     >cd reactive-kafka-app
     >sbt
@@ -37,7 +37,7 @@ https://kafka.apache.org/quickstart
     http://localhost:8888/api/producer
     {"topic": "topic1","messages":["Grape","Raspberry","Orange", "Apple"]}
     
- [3] Run the Consumer http server
+ [3] Run the Consumer stream 
     
     # Run and choose 2 com.kafka.graph.GraphMain
     sbt:reactive-kafka-app>run

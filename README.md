@@ -28,7 +28,7 @@ https://kafka.apache.org/quickstart
     >cd reactive-kafka-app
     >sbt
     
-    # Run and choose [1] com.kafka.api.Application
+    # Run and choose 1 com.kafka.api.Application
     sbt:reactive-kafka-app>run
     Enter number: 1
     
@@ -39,10 +39,10 @@ https://kafka.apache.org/quickstart
     
  [3] Run the Consumer http server
     
-    # Run and choose [2] com.kafka.graph.GraphMain
+    # Run and choose 2 com.kafka.graph.GraphMain
     sbt:reactive-kafka-app>run
     Enter number: 2
     
-    # You can subscripbe messages sent at [2] to the consumers of topic "topic1".
+    # You can subscripbe messages sent to the producer on the consumers of topic "topic1".
     # The subscribed messages are sent to the topic "topic2" producer at the same time.
 

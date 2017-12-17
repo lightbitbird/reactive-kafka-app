@@ -39,9 +39,9 @@ https://kafka.apache.org/quickstart
     
  [3] Run the Consumer stream 
     
-    # Run and choose 2 com.kafka.graph.GraphMain
+    # Run and choose 2 com.kafka.graph.CommittableGraphMain OR 3 com.kafka.graph.GraphMain
     sbt:reactive-kafka-app>run
-    Enter number: 2
+    Enter number: 2(3)
     
     # You can subscripbe messages sent to the producer on the consumers of topic "topic1".
     # The subscribed messages are sent to the topic "topic2" producer at the same time.

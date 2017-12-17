@@ -14,7 +14,7 @@ import com.typesafe.config.{Config, ConfigFactory}
 import scala.util.{Failure, Success}
 
 trait Route extends SprayJsonSupport {
-  self: ProducerStream =>
+  producer: ProducerStream =>
 
   implicit lazy val system = ActorSystem("kafka-producer-api")
   implicit lazy val materializer = ActorMaterializer()

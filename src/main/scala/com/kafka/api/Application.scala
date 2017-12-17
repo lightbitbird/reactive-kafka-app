@@ -2,7 +2,7 @@ package com.kafka.api
 
 import com.kafka.producer.ProducerStream
 
-object Application extends App with Route with ProducerStream {
+object Application extends App with ProducerStream with Route {
 
   startApplication
 

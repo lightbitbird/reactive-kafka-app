@@ -10,10 +10,13 @@ import com.typesafe.config.Config
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.apache.kafka.clients.producer.ProducerRecord
 
+import scala.concurrent.ExecutionContext
+
 trait KafkaGraph {
   implicit val system: ActorSystem
   implicit val materializer: ActorMaterializer
   protected val config: Config
+
   val logger: LoggingAdapter
 
   def consumerSource: Source[ConsumerRecord[String, String], Control]
@@ -23,10 +26,7 @@ trait KafkaGraph {
 
   val outputTopic: String
 
-  def start(): Unit = {
-    implicit val materializer = ActorMaterializer()
-
-    import system.dispatcher
+  def start(implicit ec: ExecutionContext): Unit = {
 
     val g = RunnableGraph.fromGraph(GraphDSL.create(consumerSource) { implicit b =>
       source: SourceShape[ConsumerRecord[String, String]] =>

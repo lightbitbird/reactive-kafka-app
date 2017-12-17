@@ -25,6 +25,8 @@ trait ConsumerStream {
 
   implicit lazy val system = ActorSystem("kafka-consumer-api")
   implicit lazy val materializer: ActorMaterializer = ActorMaterializer()
+  implicit lazy val ec = system.dispatcher
+
   lazy val logger = Logging(system, getClass)
   lazy val outputTopic: String = "topic2"
 
@@ -50,7 +52,6 @@ trait ConsumerStream {
   }
 
   override def toFileSink: Sink[ByteString, _] = {
-    println("file == " + config.getString("akka.output.file.name"))
     if (config.hasPath("akka.output.file.name")) {
       val name = config.getString("akka.output.file.name")
       FileIO.toPath(new File(name).toPath, Set(WRITE, CREATE, TRUNCATE_EXISTING))
@@ -74,3 +75,4 @@ trait ConsumerStream {
     Producer.plainSink(producerSettings)
   }
 }
+

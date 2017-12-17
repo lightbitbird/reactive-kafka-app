@@ -1,5 +1,4 @@
 # Reactive Kafka App With Akka Streams Kafka
-===============================
 
 
 **Usage** 
@@ -40,7 +39,7 @@ https://kafka.apache.org/quickstart
     
  [3] Run the Consumer http server
     
-    # Run and choose [1] com.kafka.graph.GraphMain
+    # Run and choose [2] com.kafka.graph.GraphMain
     sbt:reactive-kafka-app>run
     Enter number: 2
     

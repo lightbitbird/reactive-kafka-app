@@ -1,15 +1,11 @@
 package com.kafka.consumer
 
-import java.io.File
-import java.nio.file.StandardOpenOption._
-
 import akka.Done
 import akka.actor.ActorSystem
 import akka.event.Logging
 import akka.kafka.scaladsl.Consumer.Control
 import akka.kafka.scaladsl.{Consumer, Producer}
 import akka.kafka.{ConsumerSettings, ProducerSettings, Subscriptions}
-import akka.stream.ActorMaterializer
 import akka.stream.scaladsl.{FileIO, Sink, Source}
 import akka.util.ByteString
 import com.kafka.graph.KafkaGraph
@@ -17,6 +13,8 @@ import org.apache.kafka.clients.consumer.{ConsumerConfig, ConsumerRecord}
 import org.apache.kafka.clients.producer.{ProducerConfig, ProducerRecord}
 import org.apache.kafka.common.serialization.{StringDeserializer, StringSerializer}
 
+import java.io.File
+import java.nio.file.StandardOpenOption._
 import scala.concurrent.Future
 import scala.concurrent.duration._
 
@@ -24,7 +22,6 @@ trait ConsumerStream {
   graph: KafkaGraph =>
 
   implicit lazy val system = ActorSystem("kafka-consumer-api")
-  implicit lazy val materializer: ActorMaterializer = ActorMaterializer()
   implicit lazy val ec = system.dispatcher
 
   lazy val logger = Logging(system, getClass)

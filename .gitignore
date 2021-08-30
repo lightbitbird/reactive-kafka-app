@@ -24,3 +24,4 @@ test-output
 .classpath
 .project
 .settings/
+.bsp

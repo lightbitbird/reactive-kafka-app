@@ -6,9 +6,7 @@ import akka.kafka.ConsumerMessage.CommittableMessage
 import akka.kafka.scaladsl.Consumer.Control
 import akka.kafka.scaladsl.{Consumer, Producer}
 import akka.kafka.{ConsumerSettings, ProducerSettings, Subscriptions}
-import akka.stream.ActorMaterializer
 import akka.stream.scaladsl.{Flow, Sink, Source}
-import akka.{Done, NotUsed}
 import com.kafka.graph.KafkaCommittableGraph
 import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.clients.producer.{ProducerConfig, ProducerRecord}
@@ -20,7 +18,6 @@ trait CommittableMessageStream {
   graph: KafkaCommittableGraph =>
 
   implicit lazy val system = ActorSystem("kafka-consumer-api")
-  implicit lazy val materializer: ActorMaterializer = ActorMaterializer()
   implicit lazy val ec = system.dispatcher
 
   lazy val logger = Logging(system, getClass)
@@ -47,12 +44,11 @@ trait CommittableMessageStream {
     Consumer.committableSource(consumerSettings, Subscriptions.topics(topics))
   }
 
-  def flow: Flow[CommittableMessage[String, _], Done, NotUsed] = {
+  override def flow = {
     Flow[CommittableMessage[String, _]]
       .map{ msg => logger.info("message == " + msg.record.value())
         msg
       }
-      .mapAsync(1)(msg => msg.committableOffset.commitScaladsl())
   }
 
   override def toProducerSink: Sink[ProducerRecord[String, String], _] = {

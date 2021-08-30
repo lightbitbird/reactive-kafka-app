@@ -8,25 +8,25 @@
 Download and install Apache Kafka and Zookeeper components.
 https://kafka.apache.org/quickstart
 
-    > tar -xzf kafka_2.11-1.0.0.tgz
-    > cd kafka_2.11-1.0.0
+    $ tar -xzf kafka_2.13-2.8.0.tgz
+    $ cd kafka_2.13-2.8.0
     
     # Start a Zookeeper instance.
-    > bin/zookeeper-server-start.sh config/zookeeper.properties
+    $ bin/zookeeper-server-start.sh config/zookeeper.properties
     
     # Start the Kafka server.
-    > bin/kafka-server-start.sh config/server.properties
+    $ bin/kafka-server-start.sh config/server.properties
     
  [1] Create topics 
 
     # Craete two topics of "topic1" and "topic2".
-    > bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic topic1 
-    > bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic topic2 
+    $ bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic topic1 
+    $ bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic topic2 
 
  [2] Run the Producer http server 
 
-    >cd reactive-kafka-app
-    >sbt
+    $cd reactive-kafka-app
+    $sbt
     
     # Run and choose 1 com.kafka.api.Application
     sbt:reactive-kafka-app>run

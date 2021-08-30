@@ -4,8 +4,8 @@ import akka.NotUsed
 import akka.actor.ActorSystem
 import akka.kafka.ProducerSettings
 import akka.kafka.scaladsl.Producer
-import akka.stream.ActorMaterializer
 import akka.stream.scaladsl.Source
+import com.kafka.api.Route
 import com.kafka.models.Message
 import com.typesafe.config.Config
 import org.apache.kafka.clients.producer.{ProducerConfig, ProducerRecord}
@@ -13,14 +13,13 @@ import org.apache.kafka.common.serialization.{ByteArraySerializer, StringSeriali
 
 trait ProducerStream {
   implicit val system: ActorSystem
-  implicit val materializer: ActorMaterializer
   protected val config: Config
 
   def makeSource(messages: Seq[String]): Source[String, NotUsed] = {
     Source(messages.toList)
   }
 
-  def makeSink() = {
+  def makeSink = {
     val pConfig = config.getConfig("akka.kafka.producer")
     val producerSettings = ProducerSettings(system, new ByteArraySerializer, new StringSerializer)
       .withBootstrapServers(pConfig.getString("bootstrap-servers"))
@@ -34,11 +33,7 @@ trait ProducerStream {
   def create(json: Message) = {
     makeSource(json.messages)
       .map(_.toString())
-      .map { msg =>
-        println("msg ===> " + msg)
-        new ProducerRecord[Array[Byte], String](json.topic, msg)
-      }
+      .map(new ProducerRecord[Array[Byte], String](json.topic, _))
       .runWith(makeSink)
   }
-
 }

@@ -4,7 +4,7 @@ import akka.actor.ActorSystem
 import akka.event.LoggingAdapter
 import akka.kafka.scaladsl.Consumer.Control
 import akka.stream.scaladsl.{Broadcast, Flow, GraphDSL, RunnableGraph, Sink, Source}
-import akka.stream.{ActorMaterializer, ClosedShape, SourceShape}
+import akka.stream.{ClosedShape, SourceShape}
 import akka.util.ByteString
 import com.typesafe.config.Config
 import org.apache.kafka.clients.consumer.ConsumerRecord
@@ -14,7 +14,6 @@ import scala.concurrent.ExecutionContext
 
 trait KafkaGraph {
   implicit val system: ActorSystem
-  implicit val materializer: ActorMaterializer
   protected val config: Config
 
   val logger: LoggingAdapter
@@ -28,7 +27,7 @@ trait KafkaGraph {
 
   def start(implicit ec: ExecutionContext): Unit = {
 
-    val g = RunnableGraph.fromGraph(GraphDSL.create(consumerSource) { implicit b =>
+    val g = RunnableGraph.fromGraph(GraphDSL.createGraph(consumerSource) { implicit b =>
       source: SourceShape[ConsumerRecord[String, String]] =>
         import GraphDSL.Implicits._
 
@@ -46,5 +45,4 @@ trait KafkaGraph {
 
     sys.addShutdownHook(system.terminate())
   }
-
 }
